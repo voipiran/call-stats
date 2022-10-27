@@ -27,10 +27,94 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-responsive.css') }}" rel="stylesheet" />
 
+    <style>
+        [v-cloak] {
+            filter: blur(5px);
+        }
+
+
+        /* Start modal style */
+        .about-me {
+            border: none;
+            background: NONE;
+            position: absolute;
+            left: 50px;
+            top: 20PX;
+            font-size: 14px;
+            transition: all .3s;
+        }
+
+        .about-me:hover {
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .modal-mask {
+            position: fixed;
+            z-index: 9998;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: table;
+            transition: opacity 0.3s ease;
+            font-family: 'irsns', sans-serif;
+        }
+
+        .modal-mask * {
+            font-family: 'irsns', sans-serif;
+
+        }
+
+        .modal-wrapper {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .modal-container {
+            width: 300px;
+            margin: 0px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+            transition: all 0.3s ease;
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        .modal-header h3 {
+            margin-top: 0;
+            color: dodgerblue;
+        }
+
+        .modal-default-button {
+            border-radius: 9px;
+            background-color: #ffb115;
+            padding: 8px 20px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-direction: row-reverse;
+            border: 1px solid #ffb115;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        .modal-default-button:hover {
+            cursor: pointer;
+            color: #eea512;
+            background-color: #fff8eb;
+
+
+        }
+    </style>
 </head>
 
 <body class="light-sidebar-nav">
-    <div id="app">
+    <div id="app" v-cloak>
         <section id="container">
             <!--header start-->
             <header class="header white-bg">
@@ -42,7 +126,7 @@
                 </div>
 
                 <!--logo end-->
-                <div class="nav notify-row" id="top_menu">
+                <div class="nav notify-row" id="top_menu" v-if='false'>
                     <!--  notification start -->
                     <ul class="nav top-menu">
                         <!-- settings start -->
@@ -248,7 +332,7 @@
                     </ul>
                     <!--  notification end -->
                 </div>
-                <div class="top-nav ">
+                <div class="top-nav d-none">
                     <!--search & user info start-->
                     <ul class="nav pull-left top-menu">
                         <li>
@@ -276,6 +360,10 @@
                     </ul>
                     <!--search & user info end-->
                 </div>
+
+                <button @click='modalAboutMe=true' class="about-me">درباره ما</button>
+
+
             </header>
             <!--header end-->
 
@@ -284,38 +372,12 @@
                 <div id="sidebar" class="nav-collapse">
                     <!-- sidebar menu start-->
                     <ul class="sidebar-menu" id="nav-accordion">
-                        <li>
-                            <a class="active" href="#/">
-                                <i class="fa fa-dashboard"></i>
-                                <span>داشبورد</span>
+                        <li v-for="(item,index) in menu" @click="general.route=item.route ">
+                            <a :class="{ 'active': general.route == item.route }" href="#/">
+                                <i :class="item.icon"></i>
+                                <span class="pr-2">@{{ $t(item.content) }}</span>
                             </a>
                         </li>
-
-                        <li>
-                            <a href="#/about">
-                                <i class="fa fa-dashboard"></i>
-                                <span>اپراتورها</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#/non-existent-path">
-                                <i class="fa fa-dashboard"></i>
-                                <span>اپراتورها</span>
-                            </a>
-                        </li>
-
-                        {{-- disabled submenu for may be later usage --}}
-                        {{-- <li class="sub-menu">
-                        <a href="javascript:;">
-                            <i class="fa fa-laptop"></i>
-                            <span>Layouts</span>
-                        </a>
-                        <ul class="sub">
-                            <li><a href="boxed_page.html">Boxed Page</a></li>
-                            <li><a href="horizontal_menu.html">Horizontal Menu</a></li>                            
-                        </ul>
-                    </li> --}}
                     </ul>
                     <!-- sidebar menu end-->
                 </div>
@@ -324,7 +386,7 @@
 
             <!--main content start-->
             <section id="main-content">
-                <section class="wrapper">                
+                <section class="wrapper">
                     <component :is="currentView" />
                     @yield('content')
                 </section>
@@ -333,144 +395,12 @@
 
             <!-- Right Slidebar start -->
             <div class="sb-slidebar sb-right sb-style-overlay">
-                <h5 class="side-title">Online Customers</h5>
-                <ul class="quick-chat-list">
-                    <li class="online">
-                        <div class="media">
-                            <a href="#" class="">
-                                <img alt="" src="img/chat-avatar2.jpg" class="mr-3 rounded-circle">
-                            </a>
-                            <div class="media-body">
-                                <strong>حامد کوه فلاح</strong>
-                                <small>Dream Land, AU</small>
-                            </div>
-                        </div><!-- media -->
-                    </li>
-                    <li class="online">
-                        <div class="media">
-                            <a href="#" class="">
-                                <img alt="" src="img/chat-avatar.jpg" class="mr-3 rounded-circle">
-                            </a>
-                            <div class="media-body">
-                                <div class="media-status">
-                                    <span class=" badge bg-important">3</span>
-                                </div>
-                                <strong>Jonathan Smith</strong>
-                                <small>United States</small>
-                            </div>
-                        </div><!-- media -->
-                    </li>
-
-                    <li class="online">
-                        <div class="media">
-                            <a href="#" class="">
-                                <img alt="" src="img/pro-ac-1.png" class="mr-3 rounded-circle">
-                            </a>
-                            <div class="media-body">
-                                <div class="media-status">
-                                    <span class=" badge badge-success">5</span>
-                                </div>
-                                <strong>Jane Doe</strong>
-                                <small>ABC, USA</small>
-                            </div>
-                        </div><!-- media -->
-                    </li>
-                    <li class="online">
-                        <div class="media">
-                            <a href="#" class="">
-                                <img alt="" src="img/avatar1.jpg" class="mr-3 rounded-circle">
-                            </a>
-                            <div class="media-body">
-                                <strong>Anjelina Joli</strong>
-                                <small>Fockland, UK</small>
-                            </div>
-                        </div><!-- media -->
-                    </li>
-                    <li class="online">
-                        <div class="media">
-                            <a href="#" class="">
-                                <img alt="" src="img/mail-avatar.jpg" class="mr-3 rounded-circle">
-                            </a>
-                            <div class="media-body">
-                                <div class="media-status">
-                                    <span class=" badge bg-warning">7</span>
-                                </div>
-                                <strong>Mr Tasi</strong>
-                                <small>Dream Land, USA</small>
-                            </div>
-                        </div><!-- media -->
-                    </li>
-                </ul>
-                <h5 class="side-title"> pending Task</h5>
-                <ul class="p-task tasks-bar">
+                <ul class="sidebar-menu" id="nav-accordion">
                     <li>
-                        <a href="#">
-                            <div class="task-info">
-                                <div class="desc">Dashboard v1.3</div>
-                                <div class="percent">40%</div>
-                            </div>
-                            <div class="progress">
-                                <div style="width: 40%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="40" role="progressbar" class="progress-bar progress-bar-striped bg-success">
-                                    <span class="sr-only">40% Complete (success)</span>
-                                </div>
-                            </div>
+                        <a v-for="(item,index) in menu" @click="general.route=item.route " :class="{ 'active': general.route == item.route }" href="#/">
+                            <i :class="item.icon"></i>
+                            <span class="pr-2">@{{ $t(item.content) }}</span>
                         </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="task-info">
-                                <div class="desc">Database Update</div>
-                                <div class="percent">60%</div>
-                            </div>
-                            <div class="progress">
-                                <div style="width: 60%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar progress-bar-striped bg-warning">
-                                    <span class="sr-only">60% Complete (warning)</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="task-info">
-                                <div class="desc">Iphone Development</div>
-                                <div class="percent">87%</div>
-                            </div>
-                            <div class="progress">
-                                <div style="width: 87%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" role="progressbar" class="progress-bar progress-bar-striped bg-info">
-                                    <span class="sr-only">87% Complete</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="task-info">
-                                <div class="desc">Mobile App</div>
-                                <div class="percent">33%</div>
-                            </div>
-                            <div class="progress">
-                                <div style="width: 33%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="80" role="progressbar" class="progress-bar progress-bar-striped bg-danger">
-                                    <span class="sr-only">33% Complete (danger)</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="task-info">
-                                <div class="desc">Dashboard v1.3</div>
-                                <div class="percent">45%</div>
-                            </div>
-                            <div class="progress">
-                                <div style="width: 45%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="45" role="progressbar" class="progress-bar progress-bar-striped">
-                                    <span class="sr-only">45% Complete</span>
-                                </div>
-                            </div>
-
-                        </a>
-                    </li>
-                    <li class="external">
-                        <a href="#">See All Tasks</a>
                     </li>
                 </ul>
             </div>
@@ -488,7 +418,57 @@
             <!--footer end-->
 
         </section>
+
+
+
+        {{-- ** about me ** --}}
+        <section v-if='modalAboutMe' class="d-none" :class="{ 'd-block': modalAboutMe }">
+            <div class="modal-mask">
+                <div class="modal-wrapper">
+                    <div class="modal-container">
+
+                        <div class="modal-header">
+                            <h4 class="m-0 text-center w-100"> {{ $aboutMe['title'] }}</h4>
+                        </div>
+
+                        {{-- content --}}
+                        <div class="modal-body">
+                            <p class="text-justify m-0" style="line-height: 24px;">
+                                {{ $aboutMe['content'] }}
+                            </p>
+                        </div>
+
+                        {{-- tel and mobile --}}
+                        <div class="align-items-center d-flex flex-column justify-content-center">
+                            @foreach ($aboutMe['detail'] as $key => $item)
+                                <b class="mt-1">
+                                    {{ $key }} : {{ $item }}
+                                </b>
+                            @endforeach
+                        </div>
+
+                        {{-- link --}}
+                        <div class="mb-2 mt-3">
+                            <a href="{{ $aboutMe['link']['link'] }}" target="_blank" rel="noopener noreferrer">{{ $aboutMe['link']['desc'] }}</a>
+                        </div>
+
+                        <div class="modal-footer">
+
+                            <button class="modal-default-button" @click="modalAboutMe=false">
+                                {{ $aboutMe['exit'] }}
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
+
+    {{-- get base url --}}
+    <script>
+        const API = "{{ $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . config('app.API') . '/' }}"
+    </script>
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="{{ asset('js/jquery.js') }}"></script>
@@ -537,12 +517,13 @@
     </script>
 
     {{-- custom javascripts --}}
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
 
     <!--common script for all pages-->
     <script src="{{ asset('js/common-scripts.js') }}"></script>
 
     @yield('javascript')
+
 
 </body>
 

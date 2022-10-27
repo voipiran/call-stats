@@ -347,6 +347,8 @@
         position: absolute;
         right: 10px;
         top: 0px;
+
+        width: 90%;
     }
 
     .horizontal-menu .navbar-nav > li > a {

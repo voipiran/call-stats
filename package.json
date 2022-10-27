@@ -10,13 +10,29 @@
     "production": "mix --production"
   },
   "devDependencies": {
-    "axios": "^0.25",
+    "axios": "^0.27.2",
     "laravel-mix": "^6.0.6",
     "lodash": "^4.17.19",
-    "postcss": "^8.1.14"
+    "postcss": "^8.1.14",
+    "vue-loader": "^16.2.0"
   },
   "dependencies": {
+    "@kyvg/vue3-notification": "^2.4.1",
+    "devextreme": "^22.1.5",
+    "devextreme-vue": "^22.1.5",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.25",
+    "moment-jalaali": "0.9.4",
+    "pinia": "^2.0.21",
+    "sass": "1.42.1",
+    "sass-loader": "10.2.0",
+    "table-export": "^1.0.2",
     "vue": "^3.2.36",
-    "vue-router": "^4.0.15"
+    "vue-good-table-next": "^0.2.1",
+    "vue-i18n": "9",
+    "vue-multiselect": "^3.0.0-alpha.2",
+    "vue-router": "^4.0.15",
+    "vue3-persian-datetime-picker": "^1.2.2",
+    "vue3-slider": "^1.8.0"
   }
 }

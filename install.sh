@@ -41,58 +41,66 @@ echo "------------Files-----------------"
 mkdir -p /var/www/voipiran
 mkdir -p /var/www/html/voipiran
 
-rm -rf /var/www/html/voipiran/irouting
-mkdir -p /var/www/html/voipiran/irouting
+rm -rf /var/www/html/voipiran/call-stats
+mkdir /var/www/html/voipiran/call-stats
 
-rm -rf /var/www/voipiran/irouting
-mkdir -p /var/www/voipiran/irouting
+rm -rf /var/www/voipiran/stats
+mkdir /var/www/voipiran/stats
 
-yes | cp -avr public/* public/.htaccess /var/www/html/voipiran/irouting > /dev/null
-yes | cp -avr * .env /var/www/voipiran/irouting > /dev/null
-yes | rm -rf /var/www/voipiran/irouting/public > /dev/null
+yes | cp -avr public/* public/.htaccess /var/www/html/voipiran/call-stats > /dev/null
+yes | cp -avr * .env /var/www/voipiran/stats > /dev/null
+yes | rm -rf /var/www/voipiran/stats/public > /dev/null
 
-
-
-
-ln -s /var/www/voipiran/irouting/storage/app /var/www/html/voipiran/irouting/storage
-
-
-yes | cp -rf -rf installation/vi-irouting.php /var/lib/asterisk/agi-bin
 
 ###Add Permisions
-#chmod -R 777 /var/www/voipiran
-#chmod -R 777 /var/www/html/voipiran
-chmod -R 777 /var/www/voipiran/irouting/storage/app
-chmod -R 777 /var/www/voipiran/irouting/storage
-chmod 777 /var/lib/asterisk/agi-bin/vi-irouting.php
-
-chown -R asterisk:asterisk /var/www/voipiran/irouting
+chown -R asterisk:asterisk /var/www/voipiran/stats
 #chown -R asterisk:asterisk /var/www/voipiran
 #chown -R asterisk:asterisk /var/www/html/voipiran
-chown -R asterisk:root /var/www/voipiran/irouting/storage
-chmod -R 777 /var/www/voipiran/irouting/storage
-chown -R asterisk:root /var/www/voipiran/irouting/storage/app
-chmod -R 777 /var/www/voipiran/irouting/storage/app
 
-
-
-
-echo '<Directory "/var/www/html/voipiran/irouting">' >> /etc/httpd/conf.d/issabel-htaccess.conf
+echo '<Directory "/var/www/html/stats">' >> /etc/httpd/conf.d/issabel-htaccess.conf
 echo 'AllowOverride All' >> /etc/httpd/conf.d/issabel-htaccess.conf
 echo '</Directory>' >> /etc/httpd/conf.d/issabel-htaccess.conf
 
 
 #Create Database
-php /var/www/voipiran/irouting/artisan cache:clear
+php /var/www/voipiran/stats/artisan cache:clear
 yes | composer dump-autoload
 
-### Add from-pstn Context
-echo "-------------Extension Custom----------------"
-echo "" >> /etc/asterisk/extensions_custom.conf
-echo "[from-pstn]" >> /etc/asterisk/extensions_custom.conf
-echo "exten => _.,1,Answer()" >> /etc/asterisk/extensions_custom.conf
-echo "exten => _.,n,AGI(vi-irouting.php)" >> /etc/asterisk/extensions_custom.conf
-echo "exten => _.,n,Goto(ext-did,s,1)" >> /etc/asterisk/extensions_custom.conf
+#Asterisk Queue Adaptive
+sed -i '/\[options\]/a queue\_adaptive\_realtime\=no' /etc/asterisk/asterisk.conf
+sed -i '/\[options\]/a log\_membername\_as\_agent\=no' /etc/asterisk/asterisk.conf
+
+
+### Add ODBC 
+echo "-------------odbc.ini----------------"
+echo "" >> /etc/odbc.ini
+echo "[voipiran_stats]" >> /etc/odbc.ini
+echo "driver=MySQL ODBC 5.3 ANSI Driver" >> /etc/odbc.ini
+echo "server=localhost" >> /etc/odbc.ini
+echo "database=voipiran_stats" >> /etc/odbc.ini
+echo "Port=3306" >> /etc/odbc.ini
+echo "Socket=/var/lib/mysql/mysql.sock" >> /etc/odbc.ini
+echo "option=3" >> /etc/odbc.ini
+echo "charset=utf8" >> /etc/odbc.ini
+
+### Add ODBC 
+echo "-------------res_odbc_custom.conf----------------"
+echo "" >> /etc/asterisk/res_odbc_custom.conf
+echo "[voipiran_stats]" >> /etc/asterisk/res_odbc_custom.conf
+echo "enabled=>yes" >> /etc/asterisk/res_odbc_custom.conf
+echo "dsn=>voipiran_stats" >> /etc/asterisk/res_odbc_custom.conf
+echo "pooling=>no" >> /etc/asterisk/res_odbc_custom.conf
+echo "limit=>1" >> /etc/asterisk/res_odbc_custom.conf
+echo "pre-connect=>yes" >> /etc/asterisk/res_odbc_custom.conf
+echo "username=>root" >> /etc/asterisk/res_odbc_custom.conf
+echo "password=>${rootpw}" >> /etc/asterisk/res_odbc_custom.conf
+
+### Add ODBC 
+echo "-------------extconfig.conf----------------"
+echo "" >> /etc/asterisk/extconfig.conf
+echo "[settings]" >> /etc/asterisk/extconfig.conf
+echo "queue_log => odbc,voipiran_stats,queue_stats" >> /etc/asterisk/extconfig.conf
+
 
 service asterisk reload
 

@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -51,5 +52,7 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
+
+header('Access-Control-Allow-Origin: *');
 
 return $app;

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
@@ -19,7 +18,7 @@
 |
 */
 
-require '/var/www/voipiran/call-stats/bootstrap/autoload.php';
+require '/var/www/voipiran/stats/bootstrap/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +32,7 @@ require '/var/www/voipiran/call-stats/bootstrap/autoload.php';
 |
 */
 
-$app = require_once '/var/www/voipiran/call-stats/bootstrap/app.php';
+$app = require_once '/var/www/voipiran/stats/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------
