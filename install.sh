@@ -29,7 +29,7 @@ rootpw=$(sed -ne 's/.*mysqlrootpwd=//gp' /etc/issabel.conf)
 sed -i "s/93Voipiran/${rootpw}/g" .env
 
 ###Install Database
-echo "Install iRouting Mysql DataBase"
+echo "Install CallStats Mysql DataBase"
 echo "------------Create DB-----------------"
 mysql -uroot -p$rootpw < installation/voipiran_stats-database.sql
 mysql -uroot -p$rootpw -e "GRANT ALL PRIVILEGES ON voipiran_stats.* TO 'root'@'localhost';"
