@@ -25,7 +25,7 @@ sleep 1
 rootpw=$(sed -ne 's/.*mysqlrootpwd=//gp' /etc/issabel.conf)
 
 #Change DB Password
-#cp .env.example .env
+cp .env.example .env
 sed -i "s/93Voipiran/${rootpw}/g" .env
 
 ###Install Database
@@ -61,7 +61,6 @@ echo '<Directory "/var/www/html/stats">' >> /etc/httpd/conf.d/issabel-htaccess.c
 echo 'AllowOverride All' >> /etc/httpd/conf.d/issabel-htaccess.conf
 echo '</Directory>' >> /etc/httpd/conf.d/issabel-htaccess.conf
 
-
 #Create Database
 php /var/www/voipiran/stats/artisan cache:clear
 yes | composer dump-autoload
@@ -69,7 +68,6 @@ yes | composer dump-autoload
 #Asterisk Queue Adaptive
 sed -i '/\[options\]/a queue\_adaptive\_realtime\=no' /etc/asterisk/asterisk.conf
 sed -i '/\[options\]/a log\_membername\_as\_agent\=no' /etc/asterisk/asterisk.conf
-
 
 ### Add ODBC 
 echo "-------------odbc.ini----------------"
@@ -101,7 +99,7 @@ echo "" >> /etc/asterisk/extconfig.conf
 echo "[settings]" >> /etc/asterisk/extconfig.conf
 echo "queue_log => odbc,voipiran_stats,queue_stats" >> /etc/asterisk/extconfig.conf
 
-
+###Restart Asterisk Service
 service asterisk reload
 
 ###Issabel Menu
