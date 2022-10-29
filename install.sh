@@ -41,13 +41,13 @@ echo "------------Files-----------------"
 mkdir -p /var/www/voipiran
 mkdir -p /var/www/html/voipiran
 
-rm -rf /var/www/html/voipiran/call-stats
-mkdir /var/www/html/voipiran/call-stats
+rm -rf /var/www/html/voipiran/stats
+mkdir /var/www/html/voipiran/stats
 
 rm -rf /var/www/voipiran/stats
 mkdir /var/www/voipiran/stats
 
-yes | cp -avr public/* public/.htaccess /var/www/html/voipiran/call-stats > /dev/null
+yes | cp -avr public/* public/.htaccess /var/www/html/voipiran/stats > /dev/null
 yes | cp -avr * .env /var/www/voipiran/stats > /dev/null
 yes | rm -rf /var/www/voipiran/stats/public > /dev/null
 
@@ -57,7 +57,7 @@ chown -R asterisk:asterisk /var/www/voipiran/stats
 #chown -R asterisk:asterisk /var/www/voipiran
 #chown -R asterisk:asterisk /var/www/html/voipiran
 
-echo '<Directory "/var/www/html/stats">' >> /etc/httpd/conf.d/issabel-htaccess.conf
+echo '<Directory "/var/www/html/voipiran/stats">' >> /etc/httpd/conf.d/issabel-htaccess.conf
 echo 'AllowOverride All' >> /etc/httpd/conf.d/issabel-htaccess.conf
 echo '</Directory>' >> /etc/httpd/conf.d/issabel-htaccess.conf
 
@@ -95,9 +95,10 @@ echo "password=>${rootpw}" >> /etc/asterisk/res_odbc_custom.conf
 
 ### Add ODBC 
 echo "-------------extconfig.conf----------------"
-echo "" >> /etc/asterisk/extconfig.conf
-echo "[settings]" >> /etc/asterisk/extconfig.conf
-echo "queue_log => odbc,voipiran_stats,queue_stats" >> /etc/asterisk/extconfig.conf
+sed -i '/\[settings\]/a queue\_log \=\> odbc\,voipiran\_stats\,queue\_stats' /etc/asterisk/extconfig.conf
+#echo "" >> /etc/asterisk/extconfig.conf
+#echo "[settings]" >> /etc/asterisk/extconfig.conf
+#echo "queue\_log \=\> odbc\,voipiran\_stats\,queue\_stats" >> /etc/asterisk/extconfig.conf
 
 ###Restart Asterisk Service
 service asterisk reload
