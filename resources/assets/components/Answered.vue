@@ -6,6 +6,7 @@
     <div class="refresh-div">
       <div
         @click="
+          answered.details = [];
           getData();
           answeredCallsDetail();
         "

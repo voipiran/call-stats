@@ -4,7 +4,13 @@
 
     <!-- {{-- refresh btn --}} -->
     <div class="refresh-div">
-      <div @click="getData()" class="refresh"></div>
+      <div
+        @click="
+          distribution.details = null;
+          getData();
+        "
+        class="refresh"
+      ></div>
     </div>
 
     <!-- content -->

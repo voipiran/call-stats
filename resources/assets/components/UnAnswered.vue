@@ -4,7 +4,13 @@
 
     <!-- {{-- refresh btn --}} -->
     <div class="refresh-div">
-      <div @click="getData()" class="refresh"></div>
+      <div
+        @click="
+          unAnswered.details = null;
+          getData();
+        "
+        class="refresh"
+      ></div>
     </div>
 
     <!-- content -->

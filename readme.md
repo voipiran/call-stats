@@ -82,3 +82,10 @@ $ systemctl enabel qpanel.service
 ```
 
 It's done, you should see the qpanel on `serverip:5000` and it will reload on server boot.
+
+## for development
+```
+$ sudo yum install nodejs // if node not installed
+$ yarn
+$ yarn watch
+```

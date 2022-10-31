@@ -6,6 +6,7 @@
     <div class="refresh-div">
       <div
         @click="
+          operator.details = null;
           getData();
           getReport();
         "
