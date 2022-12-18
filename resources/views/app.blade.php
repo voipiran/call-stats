@@ -110,6 +110,9 @@
 
 
         }
+
+        /** dark mode style is in dashboard component */
+        
     </style>
 </head>
 
@@ -119,7 +122,7 @@
             <!--header start-->
             <header class="header white-bg">
                 <!--logo start-->
-                <a href="index.html" class="logo">Call<span>Stats</span></a>
+                <a href="/voipiran/stats/" class="logo">Call<span>Stats</span></a>
 
                 <div class="sidebar-toggle-box">
                     <i class="fa fa-bars"></i>

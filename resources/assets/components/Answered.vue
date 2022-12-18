@@ -7,6 +7,7 @@
       <div
         @click="
           answered.details = [];
+          resetTime();
           getData();
           answeredCallsDetail();
         "
@@ -70,7 +71,7 @@
       </div>
 
       <!-- تماس های پاسخ داده شده توسط اپراتور -->
-      <div class="table-shadow row" v-if="answered.answered.length">
+      <div class="table-shadow row">
         <!-- title -->
         <div class="d-flex justify-content-between align-items-center w-100">
           <div class="d-flex">
@@ -98,16 +99,18 @@
                 <span dir="rtl">{{ ((props.row.time * 100) / answered.details[0].time).toFixed(2) }} {{ $t('GENERAL.percentage') }}</span>
               </span>
               <span v-else-if="props.column.field == 'avgTime'">
-                {{ (props.row.time / props.row.count).toFixed(2) }}
+                <span dir="rtl">
+                  {{ secondsToDay((props.row.time / props.row.count).toFixed(2)) }}
+                </span>
               </span>
               <span v-else-if="props.column.field == 'avgWait'">
-                <span dir="rtl">{{ (props.row.delay / props.row.count).toFixed(2) }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ secondsToDay((props.row.delay / props.row.count).toFixed(2)) }}</span>
               </span>
               <span v-else-if="props.column.field == 'delay'">
-                <span dir="rtl">{{ props.row.delay }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ secondsToDay(props.row.delay) }}</span>
               </span>
               <span v-else-if="props.column.field == 'time'">
-                <span dir="rtl">{{ props.row.time }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ secondsToDay(props.row.time) }}</span>
               </span>
 
               <span v-else>
@@ -136,11 +139,11 @@
               <td>{{ td.agent }}</td>
               <td>{{ td.count }}</td>
               <td>{{ ((td.count * 100) / answered.details[0].count).toFixed(2) }} {{ $t('GENERAL.percentage') }}</td>
-              <td>{{ td.time }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ secondsToDay(td.time) }}</td>
               <td>{{ ((td.time * 100) / answered.details[0].time).toFixed(2) }} {{ $t('GENERAL.percentage') }}</td>
-              <td>{{ (td.time / td.count).toFixed(2) }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.delay }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ (td.delay / td.count).toFixed(2) }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ secondsToDay((td.time / td.count).toFixed(2)) }}</td>
+              <td>{{ secondsToDay(td.delay) }}</td>
+              <td>{{ secondsToDay((td.delay / td.count).toFixed(2)) }}</td>
             </tr>
           </tbody>
         </table>
@@ -164,16 +167,16 @@
               <!-- customize fields  -->
               <template #table-row="props">
                 <span v-if="props.column.field == 'pCount'">
-                  <span>{{ answered.details[0].count != '0' ? ((props.row.count * 100) / answered.details[0].count).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
+                  <span>{{ maxService ? ((props.row.count * 100) / maxService).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
                 </span>
                 <span v-else-if="props.column.field == 'count'">
                   <span>{{ props.row.count }} +</span>
                 </span>
                 <span v-else-if="props.column.field == 'countAll'">
-                  <span>{{ answered.details[0].count }} {{ $t('GENERAL.call') }}</span>
+                  <span>{{ props.row.sum }} {{ $t('GENERAL.call') }}</span>
                 </span>
                 <span v-else-if="props.column.field == 'lable'">
-                  <span>{{ $t('ANS.service.lessThan') }} {{ props.row.lable }} {{ $t('GENERAL.secend') }}</span>
+                  <span>{{ $t('ANS.service.lessThan') }} {{ secondsToDay(props.row.lable, false, 'table') }} </span>
                 </span>
 
                 <span v-else>
@@ -297,17 +300,17 @@
           </thead>
           <tbody>
             <tr v-for="(td, indexTd) in answered.answeredByCallLength" :key="indexTd">
-              <td>{{ td.lable }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ secondsToDay(td.lable, false, 'table') }}</td>
               <td>{{ td.data[0].count * 1 + td.data[1].count * 1 }}</td>
               <td>{{ td.data[0].count }}</td>
               <td>{{ td.data[1].count }}</td>
               <td>{{ td.data[0].count ? ((td.data[0].count * 100) / answered.details[0].count).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
-              <td>{{ td.data[0].time ? td.data[0].time : 0 }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ td.data[0].time ? secondsToDay(td.data[0].time, false, 'table') : 0 }}</td>
               <td>{{ td.data[0].time ? ((td.data[0].time * 100) / answered.details[0].time).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
-              <td>{{ td.data[0].time ? (td.data[0].time / td.data[0].count).toFixed(2) : 0 }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.data[0].delay ? td.data[0].delay : 0 }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.data[0].delay ? (td.data[0].delay / td.data[0].count).toFixed(2) : 0 }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.data[0].maxDelay ? td.data[0].maxDelay : 0 }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ td.data[0].time ? secondsToDay((td.data[0].time / td.data[0].count).toFixed(2), false, 'table') : 0 }}</td>
+              <td>{{ td.data[0].delay ? secondsToDay(td.data[0].delay, false, 'table') : 0 }}</td>
+              <td>{{ td.data[0].delay ? secondsToDay((td.data[0].delay / td.data[0].count).toFixed(2), false, 'table') : 0 }}</td>
+              <td>{{ td.data[0].maxDelay ? secondsToDay(td.data[0].maxDelay, false, 'table') : 0 }}</td>
             </tr>
           </tbody>
         </table>
@@ -375,17 +378,44 @@
             <!-- customize fields  -->
             <template #table-row="props">
               <span v-if="props.column.field == 'time'">
-                <span>{{ jdate(props.row.time, 'jYYYY/jMM/jDD') }}</span>
+                <span v-if="$i18n.locale == 'en'">{{ jdate(props.row.time, 'YYYY/MM/DD HH:mm') }}</span>
+                <span v-else>{{ jdate(props.row.time, 'jYYYY/jMM/jDD HH:mm') }}</span>
               </span>
 
               <span v-else-if="props.column.field == 'hurs'">
                 <span>{{ jdate(props.row.time, 'HH:mm') }}</span>
               </span>
               <span v-else-if="props.column.field == 'data1'">
-                <span dir="rtl">{{ props.row.data1 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ secondsToDay(props.row.data1, false, 'table') }} </span>
               </span>
               <span v-else-if="props.column.field == 'data2'">
-                <span dir="rtl">{{ props.row.data2 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ secondsToDay(props.row.data2, false, 'table') }} </span>
+              </span>
+              <span class="voice" v-else-if="props.column.field == 'voice'" @click="getVoice(props.row.voice)">
+                <svg v-if="voiceLoading != props.row.voice && !props.row.file" xmlns="http://www.w3.org/2000/svg" width="16.015" height="15.003" viewBox="0 0 16.015 15.003" fill="gray">
+                  <path
+                    id="download"
+                    d="M70.19,101.521a.46.46,0,0,0,.639,0l5.385-5.231a.431.431,0,0,0,0-.621l-1.071-1.04a.46.46,0,0,0-.639,0L71.956,97.1V90.439A.446.446,0,0,0,71.5,90H69.7a.446.446,0,0,0-.452.439v6.848l-2.735-2.658a.46.46,0,0,0-.639,0L64.8,95.669a.431.431,0,0,0,0,.621ZM76.293,99v3.78H64.722V99H62.5v4.893A1.11,1.11,0,0,0,63.613,105H77.4a1.111,1.111,0,0,0,1.113-1.111V99H76.293Z"
+                    transform="translate(-62.5 -90)"
+                  />
+                </svg>
+                <!-- loader -->
+                <div v-else>
+                  <div class="loader-ctn d-flex align-items-center justify-content-center" v-if="voiceLoading == props.row.voice && !props.row.file">
+                    <div class="loader-wait-request" style="height: 20px; width: 20px"></div>
+                  </div>
+                  <!-- if voice exist -->
+                  <div v-if="props.row.file != 'empty' && voiceLoading != props.row.voice">
+                    <audio controls>
+                      <source :src="`monitor/${props.row.pathFile}/${props.row.file}`" type="audio/mpeg" />
+                      Your browser does not support the audio element.
+                    </audio>
+                  </div>
+                  <!-- if not exist -->
+                  <div v-if="props.row.file == 'empty' && voiceLoading != props.row.voice">
+                    {{ $t('ANS.ansDetail.NotVoice') }}
+                  </div>
+                </div>
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -410,13 +440,14 @@
           <tbody>
             <!-- content -->
             <tr v-for="(td, index) in rowsExport" :key="index">
-              <td>{{ jdate(td.time, 'jYYYY/jMM/jDD') }}</td>
+              <td v-if="$i18n.locale == 'en'">{{ jdate(td.time, 'YYYY/MM/DD') }}</td>
+              <td v-else>{{ jdate(td.time, 'jYYYY/jMM/jDD') }}</td>
               <td>{{ td.queue }}</td>
               <td>{{ td.agent }}</td>
               <td>{{ td.event ? $t(`GENERAL.${td.event}`) : '' }}</td>
               <td>{{ jdate(td.time, 'HH:mm') }}</td>
-              <td>{{ td.data1 }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.data2 }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ secondsToDay(td.data1, false, 'table') }}</td>
+              <td>{{ secondsToDay(td.data2, false, 'table') }}</td>
             </tr>
           </tbody>
         </table>
@@ -454,6 +485,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      voiceLoading: false,
 
       isLoadingExport: false,
       rowsExport: null,
@@ -553,6 +585,7 @@ export default {
           type: 'number',
         },
       ],
+      maxService: 0,
 
       columnsQueueAnswered: [
 
@@ -578,6 +611,16 @@ export default {
       columnsAnsweredCallsDetail: [
 
         {
+          label: this.$t('ANS.ansDetail.voice'),
+          field: 'voice',
+          sortable: false,
+        },
+        {
+          label: this.$t('ANS.ansDetail.phone'),
+          field: 'phone',
+          sortable: false,
+        },
+        {
           label: this.$t('ANS.ansDetail.time'),
           field: 'data2',
           type: 'number',
@@ -587,12 +630,12 @@ export default {
           field: 'data1',
           type: 'number',
         },
-        {
-          label: this.$t('ANS.ansDetail.ringTime'),
-          field: 'hurs',
-          sortable: false,
+        // {
+        //   label: this.$t('ANS.ansDetail.ringTime'),
+        //   field: 'hurs',
+        //   sortable: false,
 
-        },
+        // },
 
         {
           label: this.$t('ANS.ansDetail.event'),
@@ -609,6 +652,7 @@ export default {
           field: 'queuename',
           type: 'number',
         },
+
         {
           label: this.$t('ANS.ansDetail.duration'),
           field: 'time',
@@ -637,6 +681,41 @@ export default {
     }
   },
   methods: {
+    /** download voice via callid */
+    async getVoice(callid) {
+      try {
+        this.voiceLoading = callid
+        let req = await this.$axios({
+          url: '/answeredActions',
+          data: { callid: callid, method: 'getVoice' }
+        })
+
+        let update = this.answered.answeredCallsDetail.map((item) => {
+          if (item.voice == callid)
+            return {
+              file: req.data.file,
+              pathFile: `${this.jdate(item.time, 'YYYY')}/${this.jdate(item.time, 'MM')}/${this.jdate(item.time, 'DD')}`,
+              agent: item.agent,
+              data1: item.data1,
+              data2: item.data2,
+              data3: item.data3,
+              phone: item.phone,
+              event: item.event,
+              queuename: item.queuename,
+              voice: item.voice,
+              time: item.time,
+
+            }
+          return item
+        });
+        console.log('update: ', update);
+        this.answered.answeredCallsDetail = update
+      } catch (error) {
+        console.log(error);
+      }
+      this.voiceLoading = false
+    },
+
     /** show lable object */
     showLable(items) {
       let lable = ''
@@ -674,7 +753,23 @@ export default {
         /**start save req for show in page answered */
         this.answered.answered = req.data.answered
         this.answered.details = req.data.details
-        this.answered.service = req.data.service
+
+
+        let max = 0;
+        let sum = 0;
+        let service = req.data.service.map((item) => {
+          if (item.count > max)
+            max = item.count;
+          sum += item.count;
+          return {
+            count: item.count,
+            sum: sum,
+            lable: item.lable
+          }
+        })
+        this.answered.service = service;
+        this.maxService = max;
+
         this.answered.queueAnswered = req.data.qAnswered
         this.answered.hangUp = req.data.hangUp.map((item) => {
           return {
@@ -689,10 +784,14 @@ export default {
         // this.home.fromFilterFaLable = this.jdate(req.data.timeFilter[0], 'jYYYY/jMM/jDD')
         // this.home.toFilterFaLable = this.jdate(req.data.timeFilter[1], 'jYYYY/jMM/jDD')
         // /**end save req for show in page answered */
+
+
+
       } catch (error) {
         console.error(error);
       }
       this.isLoading = false;
+      this.answeredCallsDetail()
     },
 
     /** Answered Calls Detail */
@@ -743,15 +842,20 @@ export default {
           return this.rowsExport = req.data.data
 
 
-        this.answered.answeredCallsDetail = req.data.data.map((item) => {
+        let report = await this.merge(req.data.data, req.data.mobile, 'callid');
+
+        this.answered.answeredCallsDetail = report.map((item) => {
           return {
             agent: item.agent,
             data1: item.data1,
             data2: item.data2,
             data3: item.data3,
+            phone: item.phone,
             event: this.$t(`GENERAL.${item.event}`),
             queuename: item.queuename,
+            voice: `${item.callid}`,
             time: item.time,
+
           }
         })
 
@@ -778,6 +882,29 @@ export default {
       }
     },
 
+    /** merge object with object  use for data waitByTime
+    * @param 1 and 2 is object
+    * @param 3 is string (name of Common feild )
+    */
+    merge(first, two, baseField) {
+      try {
+
+        const mergeByProperty = (target, source, prop) => {
+          source.forEach(sourceElement => {
+            let targetElement = target.find(targetElement => {
+              return sourceElement[prop] === targetElement[prop];
+            })
+            targetElement ? Object.assign(targetElement, sourceElement) : target.push(sourceElement);
+          })
+        }
+        mergeByProperty(first, two, baseField);
+        return first
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
   },
   components: {
     barChart,
@@ -786,7 +913,6 @@ export default {
   },
   async mounted() {
     await this.getData()
-    this.answeredCallsDetail()
   },
   setup() {
     const home = useHome()
@@ -804,5 +930,8 @@ export default {
 
 <style lang='scss'>
 #answered {
+  .voice {
+    cursor: pointer;
+  }
 }
 </style>

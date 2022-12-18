@@ -6,6 +6,7 @@ export default {
         back: ' صفحه قبل ',
         firstPage: 'اولین صفحه',
         LastPage: 'آخرین صفحه',
+		resetTime: 'بازه زمانی به تمام ساعات روز تغییر پیدا کرد.',
         of: 'از',
         all: 'همه',
         page: 'صفحه',
@@ -24,7 +25,7 @@ export default {
         answered: 'تماس های پاسخ داده شده',
         unAnswered: 'تماس های بدون پاسخ',
         distribution: 'امار توزیع تماس ها',
-        operator: 'امار اپراتور',
+        operator: 'آمار کارشناس',
         search: 'جستجو',
         realTime: 'نمایش زنده',
         setting: 'تنظیمات',
@@ -72,17 +73,17 @@ export default {
         ABANDON: 'از دست رفته',
         AGENTDUMP: 'AGENTDUMP',
         AGENTLOGIN: 'ورود کارشناس',
-        AGENTCALLBACKLOGIN: 'AGENTCALLBACKLOGIN fa',
-        AGENTLOGOFF: 'AGENTLOGOFF fa',
-        AGENTCALLBACKLOGOFF: 'AGENTCALLBACKLOGOFF fa',
+        AGENTCALLBACKLOGIN: 'ورود کارشناس کال بک',
+        AGENTLOGOFF: 'خروج کارشناس',
+        AGENTCALLBACKLOGOFF: 'خروج کارشناس کال بک',
         COMPLETEAGENT: 'پایان مکالمه توسط کارشناس',
-        COMPLETECALLER: 'پایان مکالمه توسط تماس گیرنده',
-        CONFIGRELOAD: 'CONFIGRELOAD',
+        COMPLETECALLER: 'پایان مکالمه توسط مشتری',
+        CONFIGRELOAD: 'بارگزاری تنظیمات',
         CONNECT: 'آغاز مکالمه',
         ENTERQUEUE: 'ورود به صف',
         EXITWITHKEY: 'خروج با وارد کردن عدد',
         EXITWITHTIMEOUT: 'خروج به محض پایان مهلت انتظار',
-        QUEUESTART: 'شروع به ار صف',
+        QUEUESTART: 'شروع به کار صف',
         SYSCOMPAT: 'SYSCOMPAT',
         TRANSFER: 'انتقال مکالمه',
         PAUSE: 'شروع وقفه',
@@ -90,7 +91,13 @@ export default {
         ADDMEMBER: 'افزودن کارشناس',
         REMOVEMEMBER: 'حذف کارشناس',
         RINGNOANSWER: 'عدم پاسخگویی',
-
+		RINGCANCELED: 'لغو زنگ خوردن',
+		
+		/**THEME**/
+		lightTheme: 'پوسته روشن',
+		darkTheme: 'پوسته تیره',
+		orangeTheme: 'پوسته نارنجی',
+		blueTheme: 'پوسته آبی',
 
     },
 
@@ -105,11 +112,11 @@ export default {
 
 
         /** راهنما صف */
-        queueGuide: ' لورم ایپسوم یا طرح‌نما فیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن می باشد',
-        // انتخاب اپراتور 
-        agentTitle: '  انتخاب اپراتور ',
-        /** راهنمای اپراتور */
-        agentGuide: ' لورم ایپسوم یا طرح‌نما فیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن می باشد',
+        queueGuide: 'صف های مورد نظر خود را برای اعمال گزارشات انتخاب کنید.',
+        // انتخاب کارشناس 
+        agentTitle: '  انتخاب کارشناس ',
+        /** راهنمای کارشناس */
+        agentGuide: 'به صورت پیش فرض فقط کارشناس های تعریف شده در صف ها نمایش داده می شود، در صورت انتخاب گزینه نمایش همه، کارشناس های گذشته که در اکنون در صف نیستند نیز برای انتخاب نمایش داده می شوند.',
         /** check box show all agent */
         showAllAgent: 'نمایش همه',
 
@@ -149,12 +156,13 @@ export default {
             avgTime: 'میانگین طول تماس :',
             time: 'مجموع مدت مکالمه :',
             avgDelay: 'میانگین زمان انتظار :',
+
         },
         /** Answered by Agent */
         agent: {
-            GUIDE: '  لورم ایپسوم یا طرح‌نما فیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن می باشد',
-            title: ' تماس های پاسخ داده شده توسط اپراتور ',
-            agent: ' نام اپراتور ',
+            GUIDE: 'گزارش جزئیات تماس های پاسخ داده شده توسط هر کارشناس',
+            title: ' تماس های پاسخ داده شده توسط کارشناس ',
+            agent: ' نام کارشناس ',
             received: ' تعداد مکالمه ',
             completed: ' ',
             transferred: ' ',
@@ -169,7 +177,7 @@ export default {
         },
         /** Answered by Queue */
         queue: {
-            GUIDE: '  لورم ایپسوم یا طرح‌نما فیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن می باشد',
+            GUIDE: 'گزارش ',
             title: 'تماس های پاسخ داده شده توسط صف',
             queue: 'صف',
             received: 'تعداد',
@@ -193,8 +201,8 @@ export default {
             event: 'دلیل',
             pCount: 'درصد پاسخ',
             hangUp: 'قطع مکالمه توسط',
-            agent: 'اپراتور',
-            caller: 'تماس گیرنده'
+            agent: 'کارشناس',
+            caller: 'مشتری'
         },
         // Answered by Call Length
         byTime: {
@@ -216,7 +224,7 @@ export default {
         transfers: {
             GUIDE: '  لورم ایپسوم یا طرح‌نما فیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن می باشد',
             title: 'تماس های منتقل شده',
-            agent: 'نام اپراتور',
+            agent: 'نام کارشناس',
             to: 'انتقال به',
             count: 'تعداد',
         },
@@ -226,12 +234,14 @@ export default {
             title: 'جزئیات تماس های پاسخ داده شده',
             duration: 'تاریخ ',
             queue: 'صف',
-            agent: ' نام اپراتور',
+            agent: ' نام کارشناس',
             event: 'رویداد',
             ringTime: 'زمان زنگ زدن',
             time: 'مدت مکالمه',
             wait: ' مدت انتظار',
             action: ' عملیات ',
+			voice: 'فایل صوتی مکالمه',
+			phone: 'شماره مشتری',
         },
 
 
@@ -257,6 +267,9 @@ export default {
             received: 'تعداد',
             event: 'دلیل',
             pCount: 'درصد ',
+            RINGCANCELED: 'انصراف از سمت مشتری',
+            EXITWITHTIMEOUT: 'محدودیت زمانی صف',
+            EXITWITHKEY: 'انصراف با زدن کلید',
 
         },
         //    تماس های بدون پاسخ  در صف 
@@ -278,13 +291,13 @@ export default {
             title: 'مجموع',
             answered: ' تعداد تماس پاسخ داده شده:',
             unAnswered: 'تعداد تماس بدون پاسخ',
-            login: 'ورود اپراتور',
-            logout: 'خروج اپراتور',
+            login: 'ورود کارشناس',
+            logout: 'خروج کارشناس',
         },
         // میانگین زمان انتظار در ساعت
         wait: {
             GUIDE: '  لورم ایپسوم یا طرح‌نما فیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن می باشد',
-            title: 'میانگین زمان انتظار در ساعت',
+            title: 'میانگین زمان مکالمه و انتظار در روز',
             data: 'تاریخ',
             answered: 'پاسخ داده شده',
             pAnswered: ' درصد پاسخ داده شده',
@@ -379,12 +392,12 @@ export default {
     /** OPERATOR PAGE */
     OPERATOR: {
         /** main titile */
-        title: 'آمار کارشناسان',
+        title: 'کارشناس ها',
 
         /** عنوان جزئیات  */
         detail: {
             title: 'مجموع',
-            Agents: 'تعداد اپراتور',
+            Agents: 'تعداد کارشناس',
             avgSession: 'میانگین مدت حضور',
             shortestSession: 'کوتاه ترین مدت حضور',
             longestSession: 'بیشترین میزان حضور',
@@ -393,7 +406,7 @@ export default {
         },
         // Agent Availability
         agent: {
-            GUIDE: 'اطلاعات کلی در خصوص میزان دسترسی پذیری و فعالیت اپراتور ها',
+            GUIDE: 'اطلاعات کلی در خصوص میزان دسترسی پذیری و فعالیت کارشناس ها',
             title: 'دسترس پذیری کارشناس',
             aht: 'AHT',
             idleTime: 'زمان بیکاری',
@@ -423,7 +436,7 @@ export default {
             GUIDE: 'گزارش بر اساس نتیجه یک مکالمه',
             title: 'مدیریت تماس توسط کارشناس',
             agent: 'کارشناس',
-            completeByCaller: 'پایان تماس توسط تماس گیرنده',
+            completeByCaller: 'پایان تماس توسط مشتری',
             completeByAgent: 'پایان تماس توسط کارشناس',
             transfer: 'انتقال مکالمه',
             failed: 'ناموفق',
@@ -454,7 +467,7 @@ export default {
             title: 'جستجو',
             date: 'تاریخ',
             queue: 'صف',
-            agent: 'اپراتور',
+            agent: 'کارشناس',
             event: 'رویداد',
             wait: 'زمان انتظار',
             time: 'زمان مکالمه',
@@ -483,7 +496,13 @@ export default {
             btn: ' تغییر زبان'
         },
 
-
+        theme: {
+            content: 'پوسته گزارشگیری را به روشن یا تاریک تغییر بدهید',
+            title: 'انتخاب پوسته',
+            btn: ' روشن/تیره'
+        },
 
     },
+
+	
 }

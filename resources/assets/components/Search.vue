@@ -93,7 +93,7 @@
                 </td>
                 <td dir="rlt">
                   <div class="d-flex align-items-center">
-                    <VueMultiselect v-model="eventsSelected" :options="eventsAvailable" label="title" track-by="code" :placeholder="$t('GENERAL.select')" :showLabels="false">
+                    <VueMultiselect v-model="eventsSelected" :options="eventsAvailable" label="title" track-by="code" :placeholder="$t('GENERAL.select')" :showLabels="false" @close="submit()">
                       <template v-slot:noResult>
                         {{ $t('GENERAL.noResult') }}
                       </template>
@@ -135,7 +135,11 @@
               <!-- customize fields  -->
               <template #table-row="props">
                 <span v-if="props.column.field == 'time'">
-                  <span dir="rtl">{{ jdate(props.row.time) }}</span>
+                  <span v-if="$i18n.locale == 'en'" dir="rtl">{{ jdate(props.row.time, 'YYYY/MM/DD') }}</span>
+                  <span v-else dir="rtl">{{ jdate(props.row.time, 'jYYYY/jMM/jDD') }}</span>
+                </span>
+                <span v-else-if="props.column.field == 'data1'">
+                  <span dir="rtl">{{ secondsToDay(props.row.data1, false, 'table') }}</span>
                 </span>
 
                 <span v-else>
@@ -372,7 +376,7 @@ export default {
 
         let event = []
         req.data.eventsAvailable.map((item) => {
-          if (item.event != 'NONE')
+          if (item.event != 'NONE' && item.event != 'CONFIGRELOAD' && item.event != 'DID' && item.event != 'QUEUESTART')
             event.push({ code: item.event, title: this.$t(`GENERAL.${item.event}`) })
         })
         this.eventsAvailable = event

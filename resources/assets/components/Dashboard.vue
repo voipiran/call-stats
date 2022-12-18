@@ -181,6 +181,12 @@ export default {
     },
 
   },
+  /** get locale for date-picker */
+  getLocale() {
+    if (this.$i18n.locale == 'en')
+      return 'en';
+    return 'fa';
+  },
 
   mounted() {
     this.getData()
@@ -210,6 +216,10 @@ export default {
     }
   }
 }
+.sidebar-menu {
+  margin:50px 0 !important;
+  padding: 20px 0 !important;
+}
 
 /** ---------------- start css for all component -----------------------*/
 .table-shadow {
@@ -237,7 +247,7 @@ export default {
     right: 0;
     top: 40px;
     width: 300px;
-    color: black;
+    color: inherit;
     display: none;
     padding: 10px;
     line-height: 22px;
@@ -483,5 +493,357 @@ input :not([type='checkbox']) {
     margin: 0;
   }
 }
+
 /** ---------------- End css for all component -----------------------*/
+
+/** start dark mode */
+.dark-mode {
+  background-color: rgb(36, 35, 35) !important;
+  color: rgb(223, 219, 219) !important;
+  .app {
+    ul {
+      background-color: inherit;
+      li:nth-child(odd) {
+        background-color: #f6f6f6;
+
+        background-color: #353434;
+        color: whitesmoke !important;
+      }
+      li:nth-child(even) {
+        background-color: #262222;
+        color: whitesmoke !important;
+      }
+    }
+  }
+
+  div:not(.track-filled) {
+    background-color: rgb(36, 35, 35) !important;
+    color: inherit !important;
+  }
+
+  table {
+    thead {
+      background-color: #2d2b2b;
+      th {
+        background: black !important;
+      }
+    }
+    tbody {
+      tr:nth-child(odd) {
+        background-color: #353434;
+      }
+      tr:nth-child(even) {
+        background-color: #262222;
+      }
+    }
+  }
+  .vgt-table.bordered td,
+  .vgt-table.bordered th {
+    border: none !important;
+  }
+  table.vgt-table td {
+    color: whitesmoke !important;
+  }
+  .vgt-global-search {
+    border: unset !important;
+    background: unset !important;
+    color: inherit;
+  }
+  .vgt-wrap__footer {
+    background: transparent !important;
+  }
+  header {
+    background-color: rgb(36, 35, 35) !important;
+    color: inherit !important;
+  }
+
+  ul {
+    background: #2d2b2b !important;
+    color: inherit !important;
+  }
+
+  select,
+  input {
+    background: #323131 !important;
+    border: unset !important;
+    color: inherit !important;
+    overflow: auto;
+  }
+
+  button {
+    color: whitesmoke;
+  }
+  .multiselect__single {
+    background: inherit !important;
+  }
+
+  // btn-warning
+  .btn-submit {
+    border-radius: 9px;
+    padding: 8px 20px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-direction: row-reverse;
+    border: 1px solid #ffb115;
+    white-space: nowrap;
+    min-width: 120px;
+
+    &:hover {
+      span {
+        color: #eea512 !important;
+      }
+    }
+  }
+
+  .guide {
+    p {
+      background: rgb(36, 35, 35);
+    }
+  }
+}
+
+.orange-mode {
+  background-color: #ffdead !important;
+  color: black !important;
+  .app {
+    ul {
+      background-color: inherit;
+      li:nth-child(odd) {
+        background-color: #ffe5b4;
+        color: black !important;
+      }
+      li:nth-child(even) {
+        background-color: #ffdead;
+        color: black !important;
+      }
+    }
+  }
+
+  div:not(.track-filled) {
+    background-color: #ffdead !important;
+    color: inherit !important;
+  }
+
+  header .sidebar-toggle-box {
+    background-color: unset !important;
+  }
+
+  .vue3-slider .track {
+    background-color: rgb(241, 148, 131) !important;
+  }
+  .vue3-slider .track-filled {
+    background: tomato;
+  }
+  table {
+    thead {
+      background-color: #fac898;
+      th {
+        background: #fac898 !important;
+      }
+    }
+    tbody {
+      tr:nth-child(odd) {
+        background-color: #ffe5b4;
+      }
+      tr:nth-child(even) {
+        background-color: #ffdead;
+      }
+    }
+  }
+  .vgt-table.bordered td,
+  .vgt-table.bordered th {
+    border: none !important;
+  }
+  table.vgt-table td {
+    color: black !important;
+  }
+  .vgt-global-search {
+    border: unset !important;
+    background: unset !important;
+    color: inherit;
+  }
+  .vgt-wrap__footer {
+    background: transparent !important;
+  }
+  header {
+    background-color: #fac898 !important;
+    color: inherit !important;
+  }
+
+  ul {
+    background: #fac898 !important;
+    color: inherit !important;
+  }
+
+  select,
+  input {
+    background: #fac898 !important;
+    border: unset !important;
+    color: inherit !important;
+    overflow: auto;
+  }
+
+  button,
+  span {
+    color: black;
+  }
+  .multiselect__single {
+    background: inherit !important;
+  }
+
+  // btn-warning
+  .btn-submit {
+    border-radius: 9px;
+    padding: 8px 20px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-direction: row-reverse;
+    background: tomato !important;
+    border: 1px solid tomato !important;
+    white-space: nowrap;
+    min-width: 120px;
+
+    &:hover {
+      span {
+        color: whitesmoke !important;
+      }
+      background: tomato !important;
+      border: 1px solid whitesmoke !important;
+    }
+  }
+  .guide {
+    p {
+      background: #ffdead;
+    }
+  }
+}
+
+.blue-mode {
+  background-color: #a7c7e7 !important;
+  color: black !important;
+  .table-shadow {
+    box-shadow: 3px 12px 13px #4e6378;
+  }
+  .app {
+    ul {
+      background-color: dodgerblue;
+      li:nth-child(odd) {
+        background-color: #a7c7e7;
+        color: black !important;
+      }
+      li:nth-child(even) {
+        background-color: #a7c7e7a6;
+        color: black !important;
+      }
+    }
+  }
+
+  div:not(.track-filled) {
+    background-color: #a7c7e7 !important;
+    color: inherit !important;
+  }
+
+  header .sidebar-toggle-box {
+    background-color: unset !important;
+  }
+
+  .vue3-slider .track {
+    background-color: #b8d8f8 !important;
+  }
+
+  table {
+    thead {
+      background-color: #a7c7e7a6;
+      th {
+        background: #a7c7e7a6 !important;
+      }
+    }
+    tbody {
+      tr:nth-child(odd) {
+        background-color: #a7c7e7;
+      }
+      tr:nth-child(even) {
+        background-color: #a7c7e7a6;
+      }
+    }
+  }
+  .vgt-table.bordered td,
+  .vgt-table.bordered th {
+    border: none !important;
+  }
+  table.vgt-table td {
+    color: black !important;
+  }
+  .vgt-global-search {
+    border: unset !important;
+    background: unset !important;
+    color: inherit;
+  }
+  .vgt-wrap__footer {
+    background: transparent !important;
+  }
+  header {
+    background-color: dodgerblue !important;
+    color: inherit !important;
+  }
+
+  ul {
+    background: dodgerblue !important;
+    color: inherit !important;
+  }
+
+  select,
+  input {
+    background: #a7c7e7a6 !important;
+    border: unset !important;
+    color: inherit !important;
+    overflow: auto;
+  }
+
+  button,
+  span {
+    color: black;
+  }
+  .multiselect__single {
+    background: inherit !important;
+  }
+
+  // btn-warning
+  .btn-submit {
+    border-radius: 9px;
+    padding: 8px 20px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-direction: row-reverse;
+    background: dodgerblue !important;
+    border: 1px solid dodgerblue !important;
+    white-space: nowrap;
+    min-width: 120px;
+
+    &:hover {
+      span {
+        color: whitesmoke !important;
+      }
+      background: #166cc1 !important;
+      border: 1px solid whitesmoke !important;
+    }
+  }
+
+  .guide {
+    p {
+      background: #ccccff;
+    }
+  }
+}
+
+/** End  dark mode */
 </style>

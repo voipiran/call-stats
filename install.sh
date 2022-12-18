@@ -15,8 +15,8 @@ sleep 1
 
 echo "-------------Installing Composer----------------"
 ##yum -y -q install php-cli php-zip wget unzip  > /dev/null
-#php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-#php composer-setup.php --install-dir=/usr/local/bin --filename=composer  > /dev/null
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php --install-dir=/usr/local/bin --filename=composer  > /dev/null
 yes | composer install
 echo "Installing Composer Sucsessfully"
 sleep 1
@@ -69,6 +69,19 @@ yes | composer dump-autoload
 sed -i '/\[options\]/a queue\_adaptive\_realtime\=no' /etc/asterisk/asterisk.conf
 sed -i '/\[options\]/a log\_membername\_as\_agent\=no' /etc/asterisk/asterisk.conf
 
+###Biuld Project to Make Translations
+
+#curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
+#yum install -y nodejs
+
+tar -xvf installation/nodejs/node-v16.19.0-linux-x64.tar.gz --directory /home
+yes | cp -avr installation/nodejs/nodejs.sh /etc/profile.d
+cd /var/www/voipiran/stats
+npm run production
+
+
+
+
 ### Add ODBC 
 echo "-------------odbc.ini----------------"
 echo "" >> /etc/odbc.ini
@@ -102,6 +115,7 @@ sed -i '/\[settings\]/a queue\_log \=\> odbc\,voipiran\_stats\,queue\_stats' /et
 
 ###Restart Asterisk Service
 service asterisk reload
+
 
 ###Issabel Menu
 echo "-------------Issabel Menu----------------"

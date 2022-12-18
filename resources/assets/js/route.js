@@ -24,3 +24,16 @@ export const routes = {
     'search': Search,
     '/about': About
 }
+
+// export const routes = {
+//     '/': () => Home,
+//     'home': () => Home,
+//     'answered': () => import('../components/Answered.vue'),
+//     'unAnswered': () => import('../components/UnAnswered.vue'),
+//     'distribution': () => import('../components/Distribution.vue'),
+//     'operator': () => import('../components/Operator.vue'),
+//     'setting': () => import('../components/SettingComponent.vue'),
+//     'realTime': () => import('../components/RealTime.vue'),
+//     'search': () => import('../components/Search.vue'),
+//     '/about': () => import('../components/About.vue')
+// }

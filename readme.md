@@ -19,6 +19,10 @@ $ mv ./.[!.]* /var/www/html/voipiran/stats
 $ cd ..
 $ rm -rf public 
 $ chmod -R 777 storage
+
+- cd /var/www/html/voipiran/stats and run below command access to get Recorded sounds
+$ ln -s /var/spool/asterisk/monitor
+
 $ php artisan cache:clear
 $ composer dump-autoload
 $ vim /etc/httpd/conf.d/issabel-htaccess.conf 

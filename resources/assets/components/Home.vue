@@ -96,7 +96,7 @@
               <div class="d-flex justify-content-between align-items-center">
                 <span>{{ $t('HOME.available') }}</span>
                 <!-- checkbox show all agent -->
-                <div class="show-all-agent" v-if="!isLoading" @click="getData('show all')">
+                <div class="show-all-agent" v-if="!isLoading && false" @click="getData('show all')" >
                   <input class="mx-2" type="checkbox" v-model="showAllAgent" />
                   <span>{{ $t('HOME.showAllAgent') }}</span>
                 </div>
@@ -334,7 +334,7 @@ export default {
 
       agentsAvailable: [],
       agentsSelected: [],
-      showAllAgent: false,
+      showAllAgent: true,
 
       timeFilter: '1',
 
@@ -412,7 +412,7 @@ export default {
 
         this.isLoading = true
 
-        return this.general.route = '/answered'
+        return this.general.route = '/distribution'
 
       } catch (error) {
         console.error(error);
@@ -723,7 +723,7 @@ export default {
       this.home.queuesAvailable = this.queuesAvailable = [];
       this.home.agentsAvailable = this.agentsAvailable = [];
 
-      this.home.showAllAgent = this.showAllAgent = this.home.showAllAgent;
+      // this.home.showAllAgent = this.showAllAgent = true;
 
       this.home.timeFilter = this.timeFilter = null;
 
@@ -739,9 +739,9 @@ export default {
   computed: {
     /** get locale for date-picker */
     getLocale() {
-      if (this.$i18n.locale == 'fa')
-        return 'fa';
-      return 'en';
+      if (this.$i18n.locale == 'en')
+        return 'en';
+      return 'fa';
     }
   },
   components: {
@@ -750,9 +750,12 @@ export default {
   mounted() {
     if (this.home.queues.length) {
       this.syncThisViaHomeStore();
+      this.setTimeDatePicker()
       return
     }
     this.getData()
+
+
   },
   setup() {
     const home = useHome()

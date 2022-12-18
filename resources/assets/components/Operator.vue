@@ -7,6 +7,7 @@
       <div
         @click="
           operator.details = null;
+          resetTime();
           getData();
           getReport();
         "
@@ -262,13 +263,14 @@
             <!-- customize fields  -->
             <template #table-row="props">
               <span v-if="props.column.field == 'time'">
-                <span>{{ jdate(props.row.time) }}</span>
+                <span v-if="$i18n.locale == 'en'" dir="rtl">{{ jdate(props.row.time, 'YYYY/MM/DD') }}</span>
+                <span v-else dir="rtl">{{ jdate(props.row.time, 'jYYYY/jMM/jDD') }}</span>
               </span>
               <span v-else-if="props.column.field == 'phone'">
                 <span>{{ props.row.phone ? props.row.phone : '' }}</span>
               </span>
               <span v-else-if="props.column.field == 'duration'">
-                <span dir="rtl">{{ props.row.eventEn != 'CONNECT' ? secondsToDay(props.row.data2) : '' }}</span>
+                <span dir="rtl">{{ props.row.eventEn != 'CONNECT' ? secondsToDay(props.row.data2, false, 'table') : '' }}</span>
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -291,7 +293,8 @@
           </thead>
           <tbody>
             <tr v-for="(td, index) in rowsExport" :key="index">
-              <td>{{ jdate(td.time) }}</td>
+              <td v-if="$i18n.locale == 'fa'">{{ jdate(td.time) }}</td>
+              <td v-else>{{ td.time }}</td>
               <td>{{ td.queue }}</td>
               <td>{{ td.agent }}</td>
               <td>{{ td.event ? $t(`GENERAL.${td.event}`) : '' }}</td>

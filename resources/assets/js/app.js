@@ -23,6 +23,11 @@ export default {
                     content: 'GENERAL.home',
                 },
                 {
+                    route: '/distribution',
+                    icon: 'fa fa-calendar-o',
+                    content: 'GENERAL.distribution',
+                },
+                {
                     route: '/answered',
                     icon: 'fa fa-microphone',
                     content: 'GENERAL.answered',
@@ -31,11 +36,6 @@ export default {
                     route: '/unAnswered',
                     icon: 'fa fa-microphone-slash',
                     content: 'GENERAL.unAnswered',
-                },
-                {
-                    route: '/distribution',
-                    icon: 'fa fa-calendar-o',
-                    content: 'GENERAL.distribution',
                 },
                 {
                     route: '/operator',
@@ -78,6 +78,13 @@ export default {
         window.addEventListener('hashchange', () => {
             this.currentPath = window.location.hash
         })
+
+        /** set drk and light theme */
+        if (localStorage.getItem('theme')) {
+            var element = document.body;
+            element.classList.add(localStorage.getItem('theme'));
+        }
+
     },
     setup() {
         const general = useGeneral()

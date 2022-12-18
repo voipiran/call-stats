@@ -7,6 +7,7 @@
       <div
         @click="
           unAnswered.details = null;
+          resetTime();
           getData();
         "
         class="refresh"
@@ -89,6 +90,9 @@
               <span v-if="props.column.field == 'pCount'">
                 <span dir="rtl">{{ props.row.count != '0' ? ((props.row.count * 100) / unAnswered.details.detail.count).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
               </span>
+              <span v-else-if="props.column.field == 'lable'">
+                <th>{{ $t(`UN_ANS.disconnection.${props.row.lable}`) }}</th>
+              </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
               </span>
@@ -107,7 +111,8 @@
           </thead>
           <tbody>
             <tr v-for="(td, indexTd) in unAnswered.hangUp" :key="indexTd">
-              <td>{{ td.lable }}</td>
+              <th>{{ $t(`UN_ANS.disconnection.${td.lable}`) }}</th>
+
               <td>{{ td.count }} {{ $t('GENERAL.call') }}</td>
               <td>{{ td.count != '0' ? ((td.count * 100) / unAnswered.details.detail.count).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
             </tr>

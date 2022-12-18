@@ -7,6 +7,7 @@
       <div
         @click="
           distribution.details = null;
+          resetTime();
           getData();
         "
         class="refresh"
@@ -86,7 +87,8 @@
             <!-- customize fields  -->
             <template #table-row="props">
               <span v-if="props.column.field == 'date'">
-                <span dir="rtl">{{ jdate(props.row.date, 'jYYYY/jMM/jDD') }}</span>
+                <span v-if="$i18n.locale == 'en'" dir="rtl">{{ jdate(props.row.date, 'YYYY/MM/DD') }}</span>
+                <span v-else dir="rtl">{{ jdate(props.row.date, 'jYYYY/jMM/jDD') }}</span>
               </span>
               <span v-else-if="props.column.field == 'pAnswered'">
                 <span dir="rtl">{{ props.row.countAnswered ? ((props.row.countAnswered * 100) / (props.row.countAnswered * 1 + (props.row.countUnanswered ? props.row.countUnanswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
@@ -95,10 +97,10 @@
                 <span dir="rtl">{{ props.row.countUnanswered ? ((props.row.countUnanswered * 100) / (props.row.countUnanswered * 1 + (props.row.countAnswered ? props.row.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
               </span>
               <span v-else-if="props.column.field == 'data2Answered'">
-                <span dir="rtl">{{ props.row.data2Answered ? props.row.data2Answered : 0 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ props.row.data2Answered ? secondsToDay(props.row.data2Answered, false, 'table') : 0 }}</span>
               </span>
               <span v-else-if="props.column.field == 'data1Answered'">
-                <span dir="rtl">{{ props.row.data1Answered ? props.row.data1Answered : 0 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ props.row.data1Answered ? secondsToDay(props.row.data1Answered, false, 'table') : 0 }}</span>
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -124,13 +126,14 @@
           </thead>
           <tbody>
             <tr v-for="(td, indexTd) in distribution.waitByDate" :key="indexTd">
-              <td>{{ td.date ? jdate(td.date, 'jYYYY/jMM/jDD') : 0 }}</td>
+              <td v-if="$i18n.locale == 'en'">{{ td.date ? jdate(td.date, 'YYYY/MM/DD') : 0 }}</td>
+              <td v-else>{{ td.date ? jdate(td.date, 'jYYYY/jMM/jDD') : 0 }}</td>
               <td>{{ td.countAnswered ? td.countAnswered : 0 }}</td>
               <td>{{ td.countAnswered ? ((td.countAnswered * 100) / (td.countAnswered * 1 + (td.countUnanswered ? td.countUnanswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
               <td>{{ td.countUnanswered ? td.countUnanswered : 0 }}</td>
               <td>{{ td.countUnanswered ? ((td.countUnanswered * 100) / (td.countUnanswered * 1 + (td.countAnswered ? td.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
-              <td>{{ td.data2Answered ? td.data2Answered : 0 }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.data1Answered ? td.data1Answered : 0 }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ td.data2Answered ? secondsToDay(td.data2Answered, false, 'table') : 0 }}</td>
+              <td>{{ td.data1Answered ? secondsToDay(td.data1Answered, false, 'table') : 0 }}</td>
               <td>{{ td.countLogin ? td.countLogin : 0 }}</td>
               <td>{{ td.countLogout ? td.countLogout : 0 }}</td>
             </tr>
@@ -167,10 +170,10 @@
                 <span dir="rtl">{{ props.row.countUnanswered ? ((props.row.countUnanswered * 100) / (props.row.countUnanswered * 1 + (props.row.countAnswered ? props.row.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
               </span>
               <span v-else-if="props.column.field == 'data2Answered'">
-                <span dir="rtl">{{ props.row.data2Answered ? props.row.data2Answered : 0 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ props.row.data2Answered ? secondsToDay(props.row.data2Answered, false, 'table') : 0 }} </span>
               </span>
               <span v-else-if="props.column.field == 'data1Answered'">
-                <span dir="rtl">{{ props.row.data1Answered ? props.row.data1Answered : 0 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ props.row.data1Answered ? secondsToDay(props.row.data1Answered, false, 'table') : 0 }}</span>
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -201,8 +204,8 @@
               <td>{{ td.countAnswered ? ((td.countAnswered * 100) / (td.countAnswered * 1 + (td.countUnanswered ? td.countUnanswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
               <td>{{ td.countUnanswered ? td.countUnanswered : 0 }}</td>
               <td>{{ td.countUnanswered ? ((td.countUnanswered * 100) / (td.countUnanswered * 1 + (td.countAnswered ? td.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
-              <td>{{ td.data2Answered ? td.data2Answered : 0 }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.data1Answered ? td.data1Answered : 0 }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ td.data2Answered ? secondsToDay(td.data2Answered, false, 'table') : 0 }}</td>
+              <td>{{ td.data1Answered ? secondsToDay(td.data1Answered, false, 'table') : 0 }}</td>
               <td>{{ td.countLogin ? td.countLogin : 0 }}</td>
               <td>{{ td.countLogout ? td.countLogout : 0 }}</td>
             </tr>
@@ -287,10 +290,10 @@
                 <span dir="rtl">{{ props.row.countUnanswered ? ((props.row.countUnanswered * 100) / (props.row.countUnanswered * 1 + (props.row.countAnswered ? props.row.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
               </span>
               <span v-else-if="props.column.field == 'data2Answered'">
-                <span dir="rtl">{{ props.row.data2Answered ? props.row.data2Answered : 0 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ props.row.data2Answered ? secondsToDay(props.row.data2Answered, false, 'table') : 0 }}</span>
               </span>
               <span v-else-if="props.column.field == 'data1Answered'">
-                <span dir="rtl">{{ props.row.data1Answered ? props.row.data1Answered : 0 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ props.row.data1Answered ? secondsToDay(props.row.data1Answered, false, 'table') : 0 }}</span>
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -321,8 +324,8 @@
               <td>{{ td.countAnswered ? ((td.countAnswered * 100) / (td.countAnswered * 1 + (td.countUnanswered ? td.countUnanswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
               <td>{{ td.countUnanswered ? td.countUnanswered : 0 }}</td>
               <td>{{ td.countUnanswered ? ((td.countUnanswered * 100) / (td.countUnanswered * 1 + (td.countAnswered ? td.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
-              <td>{{ td.data2Answered ? td.data2Answered : 0 }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.data1Answered ? td.data1Answered : 0 }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ td.data2Answered ? secondsToDay(td.data2Answered, false, 'table') : 0 }}</td>
+              <td>{{ td.data1Answered ? secondsToDay(td.data1Answered, false, 'table') : 0 }}</td>
               <td>{{ td.countLogin ? td.countLogin : 0 }}</td>
               <td>{{ td.countLogout ? td.countLogout : 0 }}</td>
             </tr>
@@ -383,7 +386,8 @@
             <!-- customize fields  -->
             <template #table-row="props">
               <span v-if="props.column.field == 'month'">
-                <span dir="rtl">{{ props.row.month }}</span>
+                <span v-if="$i18n.locale == 'en'" dir="rtl">{{ props.row.month }}</span>
+                <span v-else dir="rtl">{{ jdate(props.row.time, 'jMM') }}</span>
               </span>
               <span v-else-if="props.column.field == 'pAnswered'">
                 <span dir="rtl">{{ props.row.countAnswered ? ((props.row.countAnswered * 100) / (props.row.countAnswered * 1 + (props.row.countUnanswered ? props.row.countUnanswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
@@ -392,10 +396,10 @@
                 <span dir="rtl">{{ props.row.countUnanswered ? ((props.row.countUnanswered * 100) / (props.row.countUnanswered * 1 + (props.row.countAnswered ? props.row.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
               </span>
               <span v-else-if="props.column.field == 'data2Answered'">
-                <span dir="rtl">{{ props.row.data2Answered ? props.row.data2Answered : 0 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ props.row.data2Answered ? secondsToDay(props.row.data2Answered, false, 'table') : 0 }} </span>
               </span>
               <span v-else-if="props.column.field == 'data1Answered'">
-                <span dir="rtl">{{ props.row.data1Answered ? props.row.data1Answered : 0 }} {{ $t('GENERAL.secend') }}</span>
+                <span dir="rtl">{{ props.row.data1Answered ? secondsToDay(props.row.data1Answered, false, 'table') : 0 }} </span>
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -426,8 +430,8 @@
               <td>{{ td.countAnswered ? ((td.countAnswered * 100) / (td.countAnswered * 1 + (td.countUnanswered ? td.countUnanswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
               <td>{{ td.countUnanswered ? td.countUnanswered : 0 }}</td>
               <td>{{ td.countUnanswered ? ((td.countUnanswered * 100) / (td.countUnanswered * 1 + (td.countAnswered ? td.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</td>
-              <td>{{ td.data2Answered ? td.data2Answered : 0 }} {{ $t('GENERAL.secend') }}</td>
-              <td>{{ td.data1Answered ? td.data1Answered : 0 }} {{ $t('GENERAL.secend') }}</td>
+              <td>{{ td.data2Answered ? secondsToDay(td.data2Answered, false, 'table') : 0 }}</td>
+              <td>{{ td.data1Answered ? secondsToDay(td.data1Answered, false, 'table') : 0 }}</td>
               <td>{{ td.countLogin ? td.countLogin : 0 }}</td>
               <td>{{ td.countLogout ? td.countLogout : 0 }}</td>
             </tr>
@@ -896,6 +900,7 @@ export default {
   mounted() {
     this.getData()
   },
+
   setup() {
     const home = useHome()
     const distribution = useDistribution()

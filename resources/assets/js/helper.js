@@ -3,6 +3,10 @@ var moment = require('moment-jalaali')
 var momentZone = require('moment-timezone')
 
 
+
+/** import pinia */
+import { useHome } from '../js/pinia/home'
+
 /** csv export */
 var tblExport = require('table-export');
 // pdf export
@@ -56,7 +60,8 @@ export default {
             }
         },
         /** convert secend to day hours and minute */
-        secondsToDay(seconds, enter = false) {
+        secondsToDay(seconds, enter = false, kind = false) {
+            console.log(kind);
             seconds = Number(seconds);
 
             if (!seconds) return 0 + this.$t("GENERAL.secend");
@@ -75,8 +80,21 @@ export default {
                 return (dDisplay ? dDisplay + '<br>' : '') + (hDisplay ? hDisplay + '<br>' : '') + (mDisplay ? mDisplay + '<br>' : '') + sDisplay;
             return dDisplay + hDisplay + mDisplay + sDisplay;
         },
+        resetTime() {
+            this.$notify({
+                text: this.$t('GENERAL.resetTime'),
+            });
+            this.home.fromTime = "00:00"
+            this.home.toTime = '23:59'
+        }
     },
     computed: {
 
+    },
+    setup() {
+        const home = useHome()
+        return {
+            home,
+        }
     }
 }

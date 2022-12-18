@@ -22,11 +22,13 @@
             </template>
           </VueMultiselect>
         </div>
-        <button class="btn-submit" v-if="$t('SETTING.lang.btn')" @click="submit('lang')">{{ $t('SETTING.lang.btn') }}</button>
+        <button class="btn-submit" v-if="$t('SETTING.lang.btn')" @click="submit('lang')">
+          <span>{{ $t('SETTING.lang.btn') }}</span>
+        </button>
       </div>
 
       <!-- backup -->
-      <div class="mx-5 table-shadow" v-if='false'>
+      <div class="mx-5 table-shadow" v-if="false">
         <!-- title -->
         <div class="d-flex" v-if="$t('SETTING.backup.title')">
           <div class="guide" v-if="$t('SETTING.backup.GUIDE')">
@@ -36,10 +38,35 @@
         </div>
         <div>
           <p class="m-2" v-if="$t('SETTING.backup.content')">{{ $t('SETTING.backup.content') }}</p>
-          <button v-if="$t('SETTING.backup.btn')" class="btn-submit" @click="submit('backup')">{{ $t('SETTING.backup.btn') }}</button>
+          <button v-if="$t('SETTING.backup.btn')" class="btn-submit" @click="submit('backup')">
+            <span>{{ $t('SETTING.backup.btn') }}</span>
+          </button>
         </div>
       </div>
+
+      <!-- theme -->
+      <div class="mx-5 table-shadow" style="overflow: unset">
+        <!-- title -->
+        <div class="d-flex" v-if="$t('SETTING.theme.title')">
+          <div class="guide" v-if="$t('SETTING.theme.GUIDE')">
+            <p>{{ $t('SETTING.theme.GUIDE') }}</p>
+          </div>
+          <h5 class="m-0">{{ $t('SETTING.theme.title') }}</h5>
+        </div>
+        <!-- content -->
+        <div class="w-50 m-2">
+          <VueMultiselect v-model="theme" :options="themeOption" :placeholder="$t('SETTING.theme.content')" label="lable" track-by="code" :showLabels="false" :allow-empty="false">
+            <template v-slot:noResult>
+              {{ $t('theme.noResult') }}
+            </template>
+          </VueMultiselect>
+        </div>
+        <button v-if="$t('SETTING.theme.btn')" class="btn-submit" @click="submit('theme')">
+          <span>{{ $t('SETTING.theme.btn') }}</span>
+        </button>
+      </div>
     </div>
+
     <!-- loader -->
     <div class="loader-ctn d-flex align-items-center justify-content-center" style="height: 75vh" v-if="false">
       <div class="loader-wait-request"></div>
@@ -72,6 +99,14 @@ export default {
       langOption: [
         { code: 'fa', lable: this.$t('GENERAL.fa') },
         { code: 'en', lable: this.$t('GENERAL.en') }
+      ],
+
+      theme: null,
+      themeOption: [
+        { code: 'light-mode', lable: this.$t('GENERAL.lightTheme') },
+        { code: 'dark-mode', lable: this.$t('GENERAL.darkTheme') },
+        { code: 'orange-mode', lable: this.$t('GENERAL.orangeTheme') },
+        { code: 'blue-mode', lable: this.$t('GENERAL.blueTheme') }
       ]
 
     }
@@ -116,6 +151,17 @@ export default {
           return this.$notify({
             text: this.$t('GENERAL.message'),
           });
+        }
+
+        if (type == 'theme') {
+          var element = document.body;
+
+          if (localStorage.getItem('theme'))
+            element.classList.remove(localStorage.getItem('theme'));
+
+          element.classList.add(this.theme.code);
+          localStorage.setItem('theme', this.theme.code)
+          return
         }
 
 
