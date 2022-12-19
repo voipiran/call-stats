@@ -53,7 +53,7 @@ yes | rm -rf /var/www/voipiran/stats/public > /dev/null
 
 
 ###Add Permisions
-chown -R asterisk:asterisk /var/www/voipiran/stats
+chown -R asterisk:asterisk /var/www/voipiran/stats > /dev/null
 #chown -R asterisk:asterisk /var/www/voipiran
 #chown -R asterisk:asterisk /var/www/html/voipiran
 
@@ -74,10 +74,13 @@ sed -i '/\[options\]/a log\_membername\_as\_agent\=no' /etc/asterisk/asterisk.co
 #curl -fsSL https://rpm.nodesource.com/setup_16.x | sudo bash -
 #yum install -y nodejs
 
-tar -xvf installation/nodejs/node-v16.19.0-linux-x64.tar.gz --directory /home
-yes | cp -avr installation/nodejs/nodejs.sh /etc/profile.d
-cd /var/www/voipiran/stats
-npm run production
+#tar -xvf installation/nodejs/node-v16.19.0-linux-x64.tar.gz --directory /home > /dev/null
+#mkdir /home/node-v16.19.0-linux-x64
+#tar --strip-components 1 -xzvf installation/nodejs/node-v16.19.0-linux-x64.tar.gz -C /home/node-v16.19.0-linux-x64 > /dev/null
+#yes | cp -avr installation/nodejs/nodejs.sh /etc/profile.d
+
+##rm -rf node_modules --prefix /var/www/voipiran/stats
+#npm run production --silent --prefix /var/www/voipiran/stats
 
 
 
