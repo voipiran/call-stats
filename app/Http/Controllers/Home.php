@@ -1,2 +1,84 @@
-<?php
-if(!function_exists('sg_load')){$__v=phpversion();$__x=explode('.',$__v);$__v2=$__x[0].'.'.(int)$__x[1];$__u=strtolower(substr(php_uname(),0,3));$__ts=(@constant('PHP_ZTS') || @constant('ZEND_THREAD_SAFE')?'ts':'');$__f=$__f0='ixed.'.$__v2.$__ts.'.'.$__u;$__ff=$__ff0='ixed.'.$__v2.'.'.(int)$__x[2].$__ts.'.'.$__u;$__ed=@ini_get('extension_dir');$__e=$__e0=@realpath($__ed);$__dl=function_exists('dl') && function_exists('file_exists') && @ini_get('enable_dl') && !@ini_get('safe_mode');if($__dl && $__e && version_compare($__v,'5.2.5','<') && function_exists('getcwd') && function_exists('dirname')){$__d=$__d0=getcwd();if(@$__d[1]==':') {$__d=str_replace('\\','/',substr($__d,2));$__e=str_replace('\\','/',substr($__e,2));}$__e.=($__h=str_repeat('/..',substr_count($__e,'/')));$__f='/ixed/'.$__f0;$__ff='/ixed/'.$__ff0;while(!file_exists($__e.$__d.$__ff) && !file_exists($__e.$__d.$__f) && strlen($__d)>1){$__d=dirname($__d);}if(file_exists($__e.$__d.$__ff)) dl($__h.$__d.$__ff); else if(file_exists($__e.$__d.$__f)) dl($__h.$__d.$__f);}if(!function_exists('sg_load') && $__dl && $__e0){if(file_exists($__e0.'/'.$__ff0)) dl($__ff0); else if(file_exists($__e0.'/'.$__f0)) dl($__f0);}if(!function_exists('sg_load')){$__ixedurl='http://www.sourceguardian.com/loaders/download.php?php_v='.urlencode($__v).'&php_ts='.($__ts?'1':'0').'&php_is='.@constant('PHP_INT_SIZE').'&os_s='.urlencode(php_uname('s')).'&os_r='.urlencode(php_uname('r')).'&os_m='.urlencode(php_uname('m'));$__sapi=php_sapi_name();if(!$__e0) $__e0=$__ed;if(function_exists('php_ini_loaded_file')) $__ini=php_ini_loaded_file(); else $__ini='php.ini';if((substr($__sapi,0,3)=='cgi')||($__sapi=='cli')||($__sapi=='embed')){$__msg="\nPHP script '".__FILE__."' is protected by SourceGuardian and requires a SourceGuardian loader '".$__f0."' to be installed.\n\n1) Download the required loader '".$__f0."' from the SourceGuardian site: ".$__ixedurl."\n2) Install the loader to ";if(isset($__d0)){$__msg.=$__d0.DIRECTORY_SEPARATOR.'ixed';}else{$__msg.=$__e0;if(!$__dl){$__msg.="\n3) Edit ".$__ini." and add 'extension=".$__f0."' directive";}}$__msg.="\n\n";}else{$__msg="<html><body>PHP script '".__FILE__."' is protected by <a href=\"http://www.sourceguardian.com/\">SourceGuardian</a> and requires a SourceGuardian loader '".$__f0."' to be installed.<br><br>1) <a href=\"".$__ixedurl."\" target=\"_blank\">Click here</a> to download the required '".$__f0."' loader from the SourceGuardian site<br>2) Install the loader to ";if(isset($__d0)){$__msg.=$__d0.DIRECTORY_SEPARATOR.'ixed';}else{$__msg.=$__e0;if(!$__dl){$__msg.="<br>3) Edit ".$__ini." and add 'extension=".$__f0."' directive<br>4) Restart the web server";}}$__msg.="</body></html>";}die($__msg);exit();}}return sg_load('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');
+<?php namespace App\Http\Controllers;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+
+class Home extends Controller {
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+		//
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		//
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		//
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		//
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
+
+}
