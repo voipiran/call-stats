@@ -92,4 +92,6 @@ It's done, you should see the qpanel on `serverip:5000` and it will reload on se
 $ sudo yum install nodejs // if node not installed
 $ yarn
 $ yarn watch
+$ if work on server please change webpack.mix (default for local)
+
 ```

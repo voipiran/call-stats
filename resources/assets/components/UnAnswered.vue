@@ -55,7 +55,7 @@
               <span> {{ $t('UN_ANS.detail.delay') }} </span><span v-html="unAnswered.details.detail.time ? secondsToDay(unAnswered.details.detail.time / 1000 / unAnswered.details.detail.count) : 0"></span>
             </li>
             <li>
-              <span> {{ $t('UN_ANS.detail.num') }} </span><span>{{ unAnswered.details.numInQueue ? unAnswered.details.numInQueue.numInQueue : '-' }} {{ $t('GENERAL.person') }}</span>
+              <span> {{ $t('UN_ANS.detail.num') }} </span><span>{{ unAnswered.details.numInQueue ? parseInt(unAnswered.details.numInQueue.numInQueue) : '-' }} {{ $t('GENERAL.person') }}</span>
             </li>
             <li>
               <span> {{ $t('UN_ANS.detail.avgDelay') }}</span

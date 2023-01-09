@@ -6,7 +6,7 @@ export default {
         back: ' صفحه قبل ',
         firstPage: 'اولین صفحه',
         LastPage: 'آخرین صفحه',
-		resetTime: 'بازه زمانی به تمام ساعات روز تغییر پیدا کرد.',
+        resetTime: 'بازه زمانی به تمام ساعات روز تغییر پیدا کرد.',
         of: 'از',
         all: 'همه',
         page: 'صفحه',
@@ -91,13 +91,13 @@ export default {
         ADDMEMBER: 'افزودن کارشناس',
         REMOVEMEMBER: 'حذف کارشناس',
         RINGNOANSWER: 'عدم پاسخگویی',
-		RINGCANCELED: 'لغو زنگ خوردن',
-		
-		/**THEME**/
-		lightTheme: 'پوسته روشن',
-		darkTheme: 'پوسته تیره',
-		orangeTheme: 'پوسته نارنجی',
-		blueTheme: 'پوسته آبی',
+        RINGCANCELED: 'لغو زنگ خوردن',
+
+        /**THEME**/
+        lightTheme: 'پوسته روشن',
+        darkTheme: 'پوسته تیره',
+        orangeTheme: 'پوسته نارنجی',
+        blueTheme: 'پوسته آبی',
 
     },
 
@@ -240,8 +240,8 @@ export default {
             time: 'مدت مکالمه',
             wait: ' مدت انتظار',
             action: ' عملیات ',
-			voice: 'فایل صوتی مکالمه',
-			phone: 'شماره مشتری',
+            voice: 'فایل صوتی مکالمه',
+            phone: 'شماره مشتری',
         },
 
 
@@ -263,7 +263,7 @@ export default {
         // Disconnection Cause
         disconnection: {
             GUIDE: '  لورم ایپسوم یا طرح‌نما فیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن می باشد',
-            title: 'دلیل قطع شدن مکالمه',
+            title: 'دلیل قطع شدن تماس',
             received: 'تعداد',
             event: 'دلیل',
             pCount: 'درصد ',
@@ -419,8 +419,11 @@ export default {
             sessionTime: 'زمان حضور',
             sessions: 'حضور',
             failedOut: 'شکست خورده',
-            failed: 'ناموفق',
+            failed: 'بدون پاسخ',
+            UnSuccessful: 'بدون پاسخ یکتا',
             rejected: 'رد تماس',
+            failedUnique: 'بدون پاسخ یکتا',
+            rejectedUnique: 'رد تماس یکتا',
             answered: 'پاسخ داده ',
             agent: 'کارشناس'
         },
@@ -504,5 +507,5 @@ export default {
 
     },
 
-	
+
 }

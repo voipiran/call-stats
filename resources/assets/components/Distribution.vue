@@ -96,6 +96,9 @@
               <span v-else-if="props.column.field == 'pUnAnswered'">
                 <span dir="rtl">{{ props.row.countUnanswered ? ((props.row.countUnanswered * 100) / (props.row.countUnanswered * 1 + (props.row.countAnswered ? props.row.countAnswered * 1 : 0))).toFixed(2) : 0 }} {{ $t('GENERAL.percentage') }}</span>
               </span>
+              <span v-else-if="props.column.field == 'countUnanswered'">
+                <span>{{ props.row.countUnanswered ? props.row.countUnanswered : 0 }}</span>
+              </span>
               <span v-else-if="props.column.field == 'data2Answered'">
                 <span dir="rtl">{{ props.row.data2Answered ? secondsToDay(props.row.data2Answered, false, 'table') : 0 }}</span>
               </span>
@@ -174,6 +177,9 @@
               </span>
               <span v-else-if="props.column.field == 'data1Answered'">
                 <span dir="rtl">{{ props.row.data1Answered ? secondsToDay(props.row.data1Answered, false, 'table') : 0 }}</span>
+              </span>
+              <span v-else-if="props.column.field == 'countUnanswered'">
+                <span>{{ props.row.countUnanswered ? props.row.countUnanswered : 0 }}</span>
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -295,6 +301,9 @@
               <span v-else-if="props.column.field == 'data1Answered'">
                 <span dir="rtl">{{ props.row.data1Answered ? secondsToDay(props.row.data1Answered, false, 'table') : 0 }}</span>
               </span>
+              <span v-else-if="props.column.field == 'countUnanswered'">
+                <span>{{ props.row.countUnanswered ? props.row.countUnanswered : 0 }}</span>
+              </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
               </span>
@@ -400,6 +409,9 @@
               </span>
               <span v-else-if="props.column.field == 'data1Answered'">
                 <span dir="rtl">{{ props.row.data1Answered ? secondsToDay(props.row.data1Answered, false, 'table') : 0 }} </span>
+              </span>
+              <span v-else-if="props.column.field == 'countUnanswered'">
+                <span>{{ props.row.countUnanswered ? props.row.countUnanswered : 0 }}</span>
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}

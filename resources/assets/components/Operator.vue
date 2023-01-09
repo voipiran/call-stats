@@ -139,6 +139,7 @@
               <td>{{ td.countAnswered ? td.countAnswered : 0 }}</td>
               <td>{{ td.countReject ? td.countReject : 0 }}</td>
               <td>{{ td.countRingUnAnswered ? td.countRingUnAnswered : 0 }}</td>
+              <td>{{ td.UnSuccessful ? td.UnSuccessful : 0 }}</td>
               <td v-if="false"></td>
               <td v-if="false">sessions</td>
               <td v-html="td.sessionTime ? secondsToDay(td.sessionTime / 1000, 'enter') : 0"></td>
@@ -350,6 +351,7 @@ export default {
         enabled: true,
         mode: 'records',
         perPage: 10,
+        page:1,
         position: 'bottom',
         perPageDropdown: [10, 25, 50, 100],
         dropdownAllowAll: false,
@@ -487,11 +489,20 @@ export default {
 
         },
         {
+          label: this.$t('OPERATOR.agent.UnSuccessful'),
+          field: 'countUnSuccessful',
+          type: 'number',
+
+        },
+
+        {
           label: this.$t('OPERATOR.agent.failed'),
           field: 'countRingUnAnswered',
           type: 'number',
 
         },
+
+
         {
           label: this.$t('OPERATOR.agent.rejected'),
           field: 'countReject',
@@ -582,7 +593,15 @@ export default {
         mergeAgentDetail = await this.merge(agentAvailability.completeAgent, puse, 'agent');
         mergeAgentDetail = await this.merge(agentAvailability.completeAgent, agentAvailability.reject, 'agent');
         mergeAgentDetail = await this.merge(agentAvailability.completeAgent, agentAvailability.ringUnAnswered, 'agent');
+
+
+
+        /** ناموفق یکتا */
+        let UnSuccessful = await this.calcUnSuccessful(agentAvailability.unSuccessful);
+        mergeAgentDetail = await this.merge(agentAvailability.completeAgent, UnSuccessful, 'agent');
+
         /** End Agent Availability  */
+
 
         /** start Call Disposition by Agent */
         /**  مدیریت تماس توسط کارشناس*/
@@ -590,7 +609,6 @@ export default {
         let mergeDisposition = await this.merge(disposition.completeAgent, disposition.completeCaller, 'agent');
         mergeDisposition = await this.merge(disposition.completeAgent, disposition.transfer, 'agent');
         mergeDisposition = await this.merge(disposition.completeAgent, mergeAgentDetail, 'agent');
-        console.log(mergeDisposition);
         /** End Call Disposition by Agent */
 
 
@@ -630,6 +648,27 @@ export default {
       }
     },
 
+    /** calc تماس های ناموفق یکتا
+     * این بخش بر اساس کال ای دی گروه بندی شده و در این متد بر اساس نام اپراتور تعداد رکوردها نمایش داده می شود
+     */
+    calcUnSuccessful(objectUnSuccessful) {
+      let unsuccessful = []
+      this.home.agents.map((item) => {
+        let count = 0;
+        objectUnSuccessful.map((itemUnSuccessful) => {
+          if (item.code == itemUnSuccessful.agent)
+            count++;
+          unsuccessful.push({
+            'agent': item.code,
+            'countUnSuccessful': count
+          });
+        })
+
+      })
+
+      return unsuccessful;
+
+    },
     /** calc session time for any agent */
     calcSession(sessions, firstTime, lastTime) {
       try {
@@ -774,13 +813,13 @@ export default {
         if (this.isLoading) return
 
         if (!exportRequest) {
-          if (pagination == 'next') this.page++
-          else if (pagination == 'back') this.page--
-          else this.page = 1
+          if (pagination == 'next') this.paginationOptions.page++
+          else if (pagination == 'back') this.paginationOptions.page--
+          else this.paginationOptions.page = 1
         }
 
-        if (this.page <= 1)
-          this.page = 1;
+        if (this.paginationOptions.page <= 1)
+          this.paginationOptions.page = 1;
 
 
         this.isLoading = true;
@@ -793,8 +832,8 @@ export default {
 
 
         let data = {
-          'page': this.page,
-          'perPage': this.perPage,
+          'page': this.paginationOptions.page,
+          'perPage': this.paginationOptions.perPage,
           'method': 'Operator_getAllReport',
           'queues': queues,
           'agents': agents,
@@ -804,30 +843,18 @@ export default {
           'export': exportRequest
 
         }
+
         let req = await this.$axios({
           url: '/operatorActions',
           data: data
         })
-
         if (exportRequest)
           return this.rowsExport = req.data.data
-
-
-        let report = await this.merge(req.data.data, req.data.mobile, 'callid');
-        this.operator.report = report.map((item) => {
-          return {
-            agent: item.agent,
-            callid: item.callid,
-            data1: item.data1,
-            data2: item.data2,
-            event: this.$t(`GENERAL.${item.event}`),
-            eventEn: item.event,
-            phone: item.phone,
-            queuename: item.queuename,
-            time: item.time,
-          }
-        });
-
+        this.totalRecords = req.data.allReport ? req.data.allReport.length : 0
+        this.operator.report = req.data.allReport
+        if (this.totalRecords > this.perPage)
+          this.operator.report.pop();
+        console.log(this.operator.report);
       } catch (error) {
         console.error(error);
       }
